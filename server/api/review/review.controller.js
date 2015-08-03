@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Review = require('./review.model');
+var Tags = require('../tag/tag.model');
 
 // Get list of reviews
 exports.index = function(req, res) {

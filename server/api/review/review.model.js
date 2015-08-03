@@ -6,8 +6,20 @@ var mongoose = require('mongoose'),
 var ReviewSchema = new Schema({
     book_id: Number,
     user_id: Number,
-    tag_ids: Array,
-    description: String
+    title: String,
+    description: String,
+    tags: [{
+        text: String
+    }],
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
+    book:{
+        type: Schema.ObjectId,
+        ref: 'Book'
+    }
+
 });
 
 module.exports = mongoose.model('Review', ReviewSchema);

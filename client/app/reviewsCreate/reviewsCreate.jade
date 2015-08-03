@@ -1,0 +1,21 @@
+div(ng-include='"components/navbar/navbar.html"')
+
+header#banner.hero-unit
+  .container
+    h1 BooKlowm
+    p.laed BooKlowm is the book log service
+    img(src='asets/image/klomw.png', alt='klowm')
+
+.container
+  form(name='form', ng-submit='submit()')
+    h2 Title
+    p
+      input(type='text', ng-model='review.title')
+    h2 Tags
+    p
+      tags-input(ng-model='review.tags')
+        auto-complete(source='loadTags($query)')
+    p
+      textarea(row=10, cols=80, ng-model='review.description')
+    p
+      input(type='submit', value='Post review').btn.btn-primary

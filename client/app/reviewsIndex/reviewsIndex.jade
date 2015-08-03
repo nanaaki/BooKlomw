@@ -1,0 +1,23 @@
+div(ng-include='"components/navbar/navbar.html"')
+
+header#banner.hero-unit
+  .container
+    h1 BooKlowm
+    p.laed BooKlowm is the book log service
+    img(src='asets/image/klomw.png', alt='klowm')
+
+
+.container
+  .row
+    .col-lg-12
+      h1.page-header Reviews:
+        a(type='button', class='btn btn-primary', href='/reviews/create') create
+      ul.nav.nav-tabs.nav-stacked(ng-repeat='review in reviews')
+        li
+          a(href='/reviews/show/{{review._id}}', tooltip='{{review.title}}')
+            | {{review.title}}
+          span(ng-repeat='tag in review.tags')
+            span.label.label-info
+              {{tag.text}}
+
+
