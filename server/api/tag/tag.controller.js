@@ -54,6 +54,13 @@ exports.destroy = function(req, res) {
   });
 };
 
+exports.search = function(req, res) {
+  Tag.find({text: new RegExp('^' + req.params.text, "i")}, function(err, tags){
+    if(err) { return handleError(res, err); }
+    return res.status(200).json(tags);
+  });
+}
+
 function handleError(res, err) {
   return res.status(500).send(err);
 }

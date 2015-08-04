@@ -9,6 +9,7 @@ angular.module('booKlomwApp')
       $location.path('reviews')
 
   $scope.loadTags = (query)->
-    return $http.get('/api/tags?query=' + query)
+    console.log(query)
+    return $http.get('/api/tags/search/' + query)
 
   return

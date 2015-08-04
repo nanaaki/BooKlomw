@@ -25,6 +25,16 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   Review.create(req.body, function(err, review) {
     if(err) { return handleError(res, err); }
+    review.tags.forEach(function(tag){
+      Tags.findOne({text: tag.text}, function(err, res){
+        if(err) {return err};
+        if(!res) {
+          Tags.create(tag, function(err, res){
+            if(err) { return err;}
+          });
+        };
+      });
+    });
     return res.status(201).json(review);
   });
 };
