@@ -44,6 +44,11 @@ var all = {
     }
   },
 
+  amazon: {
+    clientID:     process.env.AMAZON_ID || 'id',
+    clientSecret: process.env.AMAZON_SECRET || 'secret',
+  },
+
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',

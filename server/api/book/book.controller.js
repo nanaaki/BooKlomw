@@ -28,6 +28,10 @@ exports.create = function(req, res) {
   });
 };
 
+// Create a new book in the DB from amazon api
+exports.create_from_amazon_api = function(req, res) {
+};
+
 // Updates an existing book in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
