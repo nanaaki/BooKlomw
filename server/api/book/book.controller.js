@@ -12,11 +12,19 @@ var client = amazon.createClient({
     assocId: conf.AMAZON_ASSOC_ID
 });
 
+
 // Create a new book in the DB from amazon api
 exports.create_from_isbn = function(req, res) {
-  client.itemLookup({IdType: 'ISBN', ItemId: req.body.isbn}, function(err, results){
-    if(err) { return handleerror(res, err); }
-    console.log(results);
+  client.itemLookup({
+    idType: 'ISBN',
+    itemId: req.params.isbn,
+    responseGroup: 'ItemAttributes,Offers,Images'
+  }, function(err, results) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(results);
+    }
   });
 };
 
