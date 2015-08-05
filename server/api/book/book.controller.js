@@ -2,6 +2,23 @@
 
 var _ = require('lodash');
 var Book = require('./book.model');
+var conf = require('../../../server/config/config.json');
+
+var amazon = require('amazon-product-api');
+var client = amazon.createClient({
+    endPoint: 'ecs.amazonaws.jp',
+    awsId: conf.AMAZON_ID,
+    awsSecret: conf.AMAZON_SECRET,
+    assocId: conf.AMAZON_ASSOC_ID
+});
+
+// Create a new book in the DB from amazon api
+exports.create_from_isbn = function(req, res) {
+  client.itemLookup({IdType: 'ISBN', ItemId: req.body.isbn}, function(err, results){
+    if(err) { return handleerror(res, err); }
+    console.log(results);
+  });
+};
 
 // Get list of books
 exports.index = function(req, res) {
@@ -28,9 +45,6 @@ exports.create = function(req, res) {
   });
 };
 
-// Create a new book in the DB from amazon api
-exports.create_from_amazon_api = function(req, res) {
-};
 
 // Updates an existing book in the DB.
 exports.update = function(req, res) {
