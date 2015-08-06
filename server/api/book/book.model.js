@@ -8,9 +8,10 @@ var BookSchema = new Schema({
   author: String,
   publisher: String,
   publish_date: Date,
-  amazon_id: String,
-  ISBN: String,
-  active: Boolean
+  amazon_url: String,
+  amazon_image: String,
+  isbn: String,
 });
 
 module.exports = mongoose.model('Book', BookSchema);
+

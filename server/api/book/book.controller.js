@@ -6,10 +6,9 @@ var conf = require('../../../server/config/config.json');
 
 var amazon = require('amazon-product-api');
 var client = amazon.createClient({
-    endPoint: 'ecs.amazonaws.jp',
-    awsId: conf.AMAZON_ID,
-    awsSecret: conf.AMAZON_SECRET,
-    assocId: conf.AMAZON_ASSOC_ID
+  awsId: conf.AMAZON_ID,
+  awsSecret: conf.AMAZON_SECRET,
+  assocId: conf.AMAZON_ASSOC_ID
 });
 
 
@@ -18,12 +17,33 @@ exports.create_from_isbn = function(req, res) {
   client.itemLookup({
     idType: 'ISBN',
     itemId: req.params.isbn,
-    responseGroup: 'ItemAttributes,Offers,Images'
+    responseGroup: 'ItemAttributes,Offers,Images',
+    domain: 'ecs.amazonaws.jp'
   }, function(err, results) {
     if (err) {
       console.log(err);
     } else {
-      console.log(results);
+      var api_res = {
+        title:         results[0]['ItemAttributes'][0]['Title'][0],
+        author:        results[0]['ItemAttributes'][0]['Author'],
+        publisher:     results[0]['ItemAttributes'][0]['Publisher'][0],
+        publishe_date: results[0]['ItemAttributes'][0]['PublicationDate'][0],
+        amazon_url:    results[0]['DetailPageURL'][0],
+        amazon_image:  results[0]['LargeImage'][0]['URL'],
+        isbn:          req.params.isbn
+      }
+
+      Book.find({isbn: api_res['isbn']}, function (err, book) {
+        if(err) { return handleError(res, err); }
+        if(book.length==0) {
+          Book.create(api_res, function(err, created_book) {
+            if(err) { return handleError(res, err); }
+            return res.status(201).json(created_book);
+          });
+        } else {
+            return res.status(201).json(book);
+        }
+      });
     }
   });
 };
